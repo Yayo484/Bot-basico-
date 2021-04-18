@@ -10,8 +10,8 @@ import re
 bot = commands.Bot(command_prefix='*')
 
 @bot.command()
-async def Ping(ctx):
-  await ctx.send('Pong')
+async def Pum(ctx):
+  await ctx.send('Pang')
 
 @bot.command()
 async def xrdm(ctx, a: int):
