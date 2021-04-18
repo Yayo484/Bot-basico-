@@ -69,14 +69,6 @@ async def limpiar(ctx, amount=10):
 
 
 @bot.event
-async def on_member_join(member):
-  print(f'{member} se ha unido al server')
-
-@bot.event
-async def on_member_remove(member):
-  print(f'{member} se ha ido del server')
-
-@bot.event
 async def on_ready():
   await bot.change_presence(activity=discord.Streaming(name="Fallout New Vegas", url="https://www.twitch.tv/directory/game/Fallout%3A%20New%20Vegas"))
 print('Bot activo')
