@@ -1,0 +1,85 @@
+import discord
+from discord.ext import commands
+import datetime
+import random
+from discord.utils import get 
+from urllib import parse, request
+import re
+
+
+bot = commands.Bot(command_prefix='*')
+
+@bot.command()
+async def Ping(ctx):
+  await ctx.send('Pong')
+
+@bot.command()
+async def xrdm(ctx, a: int):
+  await ctx.send(random.randrange(a))
+
+@bot.command()
+async def estaciones(ctx):
+  for i in ["Primavera","verano","otoño","invierno"]:
+    await ctx.send(i)
+
+@bot.command()
+async def suma(ctx, numero1: int, numero2: int):
+  await ctx.send(f'{numero1} + {numero2} = {numero1+numero2}')
+
+@bot.command()
+async def resta(ctx, numero1: int, numero2: int):
+  await ctx.send(f'{numero1} - {numero2} = {numero1-numero2}')
+
+@bot.command()
+async def multiplica(ctx, numero1: int, x, numero2: int):
+  await ctx.send(f'{numero1} x {numero2} = {numero1*numero2}')
+
+@bot.command()
+async def exponente(ctx, numero1: int, exponente: int):
+  await ctx.send(f'{numero1}^^{exponente} = {numero1**exponente}')
+
+@bot.command()
+async def divide(ctx, numero1: int, numero2: int):
+  await ctx.send(f'{numero1} / {numero2} = {numero1/numero2}')
+
+@bot.command()
+async def tabla(ctx, a:int):
+  for i in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10):
+    await ctx.send(f'{a} x {i} = {a*i}')
+
+@bot.command()
+async def info(ctx):
+  embed = discord.Embed(title=f"{ctx.guild.name}", description="prueba", timestamp=datetime.datetime.utcnow(), color=discord.Color.blue())
+  embed.add_field(name="El servidor se creo ", value=f"{ctx.guild.created_at}")
+  embed.add_field(name="Creador del servidor", value=f"{ctx.guild.owner}")
+  embed.add_field(name="Región del servidor", value=f"{ctx.guild.region}")
+  embed.add_field(name="Server ID", value=f"{ctx.guild.id}")
+
+@bot.command()
+async def youtube(ctx, *, search):
+  query_string = parse.urlencode({'search_query': search})
+  html_content = request.urlopen('http://www.youtube.com/results?' + query_string)
+  search = re.findall( r"watch\?v=(\S{11})", html_content.read().decode())
+  await ctx.send('https://www.youtube.com/watch?v=' + search[random.randrange(20)])
+ 
+
+@bot.command()
+async def limpiar(ctx, amount=10):
+  await ctx.channel.purge(limit=amount)
+
+
+@bot.event
+async def on_member_join(member):
+  print(f'{member} se ha unido al server')
+
+@bot.event
+async def on_member_remove(member):
+  print(f'{member} se ha ido del server')
+
+@bot.event
+async def on_ready():
+  await bot.change_presence(activity=discord.Streaming(name="Fallout New Vegas", url="https://www.twitch.tv/directory/game/Fallout%3A%20New%20Vegas"))
+print('Bot activo')
+
+
+bot.run('token')
